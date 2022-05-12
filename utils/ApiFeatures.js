@@ -31,6 +31,13 @@ this.query=this.query.find(JSON.parse(querystr))
 return this
 
   }
+  pagination(resultPerPage){
+      const currenPage=Number(this.queryStr.page) ||1
+      const skip=resultPerPage*(currenPage-1)
+      this.query==this.query.limit(resultPerPage).skip(skip)
+      return this
+
+  }
 
 }
 module.exports=ApiFeatures

@@ -4,7 +4,12 @@ const ErrorHandler = require("../utils/ErrorHandle");
 
 const GetAllProduct = async (req, res) => {
   try {
-    const apifeature = new ApiFeatures(Product.find(), req.query).search().filter();
+    const resultPerPage = 5;
+    const productCount = Product.countDocuments();
+    const apifeature = new ApiFeatures(Product.find(), req.query)
+      .search()
+      .filter()
+      .pagination(resultPerPage);
     const product = await apifeature.query;
     res.status(200).json({
       status: "success",
@@ -16,7 +21,6 @@ const GetAllProduct = async (req, res) => {
     });
   }
 };
-
 
 const CreatProduct = async (req, res) => {
   try {
@@ -67,6 +71,7 @@ const GetProductId = async (req, res) => {
     res.status(200).json({
       status: "success",
       GetIdProduct,
+      productCount,
     });
   } catch (error) {
     res.status(404).json({
